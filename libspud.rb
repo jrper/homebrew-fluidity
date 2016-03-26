@@ -10,7 +10,11 @@ class Libspud < Formula
   version "1.1"
 
   # depends_on "cmake" => :build
-  depends_on :x11 # if your formula requires any X11/XQuartz components
+  depends_on "libxml2"
+  depends_on "python"
+  depends_on "trang"
+  depends_on "gcc"
+  depends_on "pygtk" => "with-libglade"
 
   fails_with :llvm do
     build 2336
