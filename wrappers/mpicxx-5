@@ -1,0 +1,2 @@
+#!/bin/bash
+OMPI_CXX=g++-5 mpicxx $@

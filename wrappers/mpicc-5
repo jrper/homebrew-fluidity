@@ -1,0 +1,2 @@
+#!/bin/bash
+OMPI_CC=gcc-5 mpicc $@
