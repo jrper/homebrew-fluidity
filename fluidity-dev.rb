@@ -4,10 +4,12 @@ class FluidityDev < Formula
 
   depends_on "libspud"
   depends_on "petsc-fluidity"
+  depends_on "jrper/fluidity/zoltan"
   depends_on "modules"
   depends_on "gmsh"
   depends_on "numpy"
   depends_on "scipy"
+  depends_on "matplotlib"
   depends_on "gnu-sed"
   depends_on "udunits"
   depends_on "netcdf" => "with-fortran"

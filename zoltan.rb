@@ -13,10 +13,17 @@ class Zoltan < Formula
 
   depends_on "scotch"
   depends_on "petsc-fluidity"
-  depends_on :fortran   
+  depends_on :fortran
+  depends_on "gcc"
 
   mpilang = [:cc, :cxx, :f90]
   depends_on :mpi => mpilang
+
+  fails_with :llvm 
+  fails_with :clang
+  fails_with :gcc_4_0
+
+  ENV["OMPI_FC"] = ENV["FC"]
 
   def oprefix(f)
     Formula[f].opt_prefix
@@ -25,14 +32,18 @@ class Zoltan < Formula
   def install
     ENV.deparallelize
 
+    ENV["CC"] = "#{HOMEBREW_PREFIX}/bin/mpicc-5"
+    ENV["CXX"] = "#{HOMEBREW_PREFIX}/bin/mpicxx-5"
+
     args = [
       "--prefix=#{prefix}",
-      "CC=#{ENV["MPICC"]}",
+      "CC=#{#{ENV["MPICC"]}}",
       "CXX=#{ENV["MPICXX"]}",
     ]
     args << "--with-parmetis" 
     args << "--enable-zoltan-cppdriver"
     args << "--enable-mpi"
+    args << "--with-mpi-compilers=yes"
     args << "--with-gnumake"
     args << "--enable-zoltan-cppdriver"
     args << "--disable-examples"

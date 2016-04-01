@@ -28,18 +28,23 @@ class PetscFluidity < Formula
     Formula[f].opt_prefix
   end
 
-  ENV["OMPI_CXX"] = ENV["CXX"]
-  ENV["OMPI_CC"] = ENV["CC"]
-  ENV["OMPI_FC"] = ENV["FC"]
-  ENV["OMPI_F77"] = ENV["FC"]
+
 
   def install
     ENV.deparallelize
 
+    ENV["OMPI_FC"] = ENV["FC"]
+    ENV["OMPI_F77"] = ENV["FC"]
+
+    ENV["PETSC_DIR"] = Dir.getwd
+
+    ENV["MPICC"] = "#{HOMEBREW_PREFIX}/bin/mpicc-5"
+    ENV["MPICXX"] = "#{HOMEBREW_PREFIX}/bin/mpicxx-5"
+
     system "./configure", "--with-shared-libraries=0",
                           "--with-pic=fPIC",
                           "--with-cc=#{ENV["MPICC"]}",
-                          "--with-cxx=#{ENV["MPICXX"]}",
+                          "--with-cxx=#{ENV["MPICC"]}",
                           "--with-fc=#{ENV["MPIFC"]}",
                           "--with-debugging=0",
                           "--useThreads 0",
@@ -54,7 +59,6 @@ class PetscFluidity < Formula
                           "--download-metis",
                           "--download-parmetis",
                           "--download-exodusii",
-                          "--download-triangle",
                           "--with-netcdf=1",
                           "--with-netcdf-dir=#{oprefix("netcdf")}",
                           "--with-hdf5",
@@ -67,6 +71,7 @@ class PetscFluidity < Formula
                           "--prefix=#{prefix}"
     system "make", "all"
     system "make", "install"
+
   end
 
   test do

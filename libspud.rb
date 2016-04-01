@@ -15,21 +15,28 @@ class Libspud < Formula
   depends_on "trang"
   depends_on "gcc"
   depends_on "pygtk" => "with-libglade"
+  depends_on :mpi => [:cc, :cxx, :f77, :f90]
+  depends_on :fortran
 
-  fails_with :llvm do
-    build 2336
-  end
-  fails_with :clang do
-    build 425
-  end
+  fails_with :llvm 
+  fails_with :clang
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
 
+    FileUtils.cp Dir["#{HOMEBREW_PREFIX}/Library/Taps/jrper/homebrew-fluidity/wrappers/*"], Dir.getwd
+
+    bin.install "mpicc-5"
+    bin.install "mpicxx-5"
+
+    ENV["CC"] = "#{bin}/mpicc-5"
+    ENV["CXX"] = "#{bin}/mpicxx-5"
+
     # Remove unrecognized options if warned by configure
     system "./configure", "--prefix=#{prefix}"
-    # system "cmake", ".", *std_cmake_args
     system "make", "install" # if this fails, try separate make/make install steps
+
+    inreplace "#{bin}/diamond", "/usr/share/diamond/gui/diamond.svg", "#{prefix}/share/diamond/gui/diamond.svg"
   end
 
   test do
