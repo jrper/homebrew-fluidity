@@ -36,9 +36,7 @@ class Zoltan < Formula
     ENV["CXX"] = "#{HOMEBREW_PREFIX}/bin/mpicxx-5"
 
     args = [
-      "--prefix=#{prefix}",
-      "CC=#{#{ENV["MPICC"]}}",
-      "CXX=#{ENV["MPICXX"]}",
+      "--prefix=#{prefix}"
     ]
     args << "--with-parmetis" 
     args << "--enable-zoltan-cppdriver"
