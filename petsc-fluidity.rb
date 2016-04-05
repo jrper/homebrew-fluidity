@@ -44,7 +44,7 @@ class PetscFluidity < Formula
     system "./configure", "--with-shared-libraries=0",
                           "--with-pic=fPIC",
                           "--with-cc=#{ENV["MPICC"]}",
-                          "--with-cxx=#{ENV["MPICC"]}",
+                          "--with-cxx=#{ENV["MPICXX"]}",
                           "--with-fc=#{ENV["MPIFC"]}",
                           "--with-debugging=0",
                           "--useThreads 0",
